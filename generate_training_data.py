@@ -159,7 +159,7 @@ def plot_spectrum_grid(rows=4, cols=4):
             if i < rows - 1: ax.set_xticklabels([])
 
     fig.suptitle('Variation Gallery: 4 Types of Synthetic Spectra', fontsize=20, y=0.95)
-    plt.show()
+    # plt.show()
 
 # plot_spectrum_grid()
 
@@ -208,8 +208,46 @@ X_train = np.array(X_train_list)
 y_train = np.array(y_train_list)
 
 print(f"X_train shape: {X_train.shape}") # Should be (3000, 25)
-print(X_train[:5])
-print(f"y_train shape: {y_train.shape}") # Should be (3000, 1500)
+# print(X_train[:5])
+# print(f"y_train shape: {y_train.shape}") # Should be (3000, 1500)
 
 
 # now perform the SVD part to get physically informed first draft
+# T = U * Sigma * V^T
+# (source) x = V * inverse(Sigma) * U^T * y
+
+U, S, Vh = np.linalg.svd(calibration_matrix, full_matrices=False)
+
+plt.figure(figsize=(10, 4))
+plt.plot(Vh[0, :], label='Shape 1 (Strongest)')
+plt.plot(Vh[1, :], label='Shape 2')
+plt.plot(Vh[2, :], label='Shape 3')
+plt.legend()
+plt.title("The SVD Dictionary: The 3 Most Important Shapes our Chip Sees")
+# plt.show()
+
+print(S)
+
+S_inv_matrix = np.diag(1 / S)
+print(S_inv_matrix.shape)
+# print(S_inv_matrix)
+
+print(Vh.shape)
+print(S_inv_matrix.shape)
+print(U.T.shape)
+
+
+inflation_matrix = Vh.T @ S_inv_matrix @ U.T
+print(inflation_matrix.shape)
+# final_matrix = inflation_matrix 
+X_train_rough = X_train @ inflation_matrix.T
+print(X_train_rough)
+
+sample_idx = 42
+
+plt.figure(figsize=(12, 5))
+plt.plot(wavelengths, y_train[sample_idx], label="Ground Truth (The Target)", color='black', alpha=0.5)
+plt.plot(wavelengths, X_train_rough[sample_idx], label="SVD Rough Sketch (The Input)", color='red')
+plt.title(f"Sample {sample_idx}: Ground Truth vs. SVD Reconstruction")
+plt.legend()
+plt.show()
