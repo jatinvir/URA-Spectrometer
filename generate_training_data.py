@@ -27,13 +27,13 @@ def generate_sparse_spectrum(number_of_spikes):
 # full with some sharp drips
 def generate_narrow_absorption(number_of_spikes):
     x = np.arange(1500)
-    spectrum = np.zeros(1500)
+    spectrum = np.ones(1500)
 
     for _ in range(number_of_spikes):
         center = random.uniform(0, 1500)
         width = random.uniform(0.5, 2.0)
         intensity = random.random()
-        spectrum += intensity * np.exp(-((x - center)**2) / (2 * width**2))
+        spectrum -= intensity * np.exp(-((x - center)**2) / (2 * width**2))
     return np.clip(spectrum, 0, 1)
 
 
@@ -221,7 +221,7 @@ for _ in range(3000):
     # y_train has the perfect spectrums
     y_train_list.append(spectrum)
 
-
+# 25 point measurements
 X_train = np.array(X_train_list)
 y_train = np.array(y_train_list)
 
@@ -343,7 +343,7 @@ y_val_ref = y_train[split_idx:]
 
 
 # has 3000 samples total
-train_dataset = SpectrumDataset(X_train_final, X_train_final)
+train_dataset = SpectrumDataset(X_train_final, y_train_final)
 val_dataset = SpectrumDataset(X_val_ref, y_val_ref)
 
 # train in batches of 32
@@ -389,22 +389,47 @@ for epoch in range(num_of_epochs):
     
     # lock model and then shut off backprop, runs once per epoch
     model.eval()
-    val_loss = 0.0
+    running_val_loss = 0.0
 
     # test on 20% of data
     with torch.no_grad():
         for X_val, y_val in val_loader:
             val_preds = model(X_val)
-            val_loss = loss_function(val_preds, y_val)
-            val_loss += val_loss.item()
+            batch_loss = loss_function(val_preds, y_val)
+            running_val_loss += batch_loss.item()
 
     
     avg_train_loss = train_loss / len(train_loader)
-    avg_val_loss = val_loss / len(val_loader)
+    avg_val_loss = running_val_loss / len(val_loader)
     loss_history.append(avg_val_loss)
     if (epoch + 1) % 10 == 0:
         print(f"Epoch [{epoch+1}/{num_of_epochs}] | Train Loss: {avg_train_loss:.6f} | Val Loss: {avg_val_loss:.6f}")
 
+
+# 1. Lock the model for testing
+model.eval()
+
+# 2. Grab exactly one batch of validation data
+with torch.no_grad():
+    X_val_batch, y_val_batch = next(iter(val_loader))
+    
+    predictions = model(X_val_batch)
+
+true_spectrum = y_val_batch[0].numpy()
+predicted_spectrum = predictions[0].numpy()
+wavelengths = np.linspace(1550, 1565, 1500)
+
+# 4. Plot the overlay
+plt.figure(figsize=(10, 5))
+plt.plot(wavelengths, true_spectrum, label="Ground Truth (Clean)", color="black", linewidth=2)
+plt.plot(wavelengths, predicted_spectrum, label="NN Prediction", color="red", linestyle="--", linewidth=2)
+
+plt.title("Solver-Informed Reconstruction: Prediction vs. Reality")
+plt.xlabel("Wavelength (nm)")
+plt.ylabel("Normalized Intensity")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
 print("training done")
 
 
