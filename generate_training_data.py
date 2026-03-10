@@ -5,7 +5,7 @@ import scipy.io
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
-
+plt.ioff()
 wavelengths = np.linspace(1550, 1565, 1500)
 
 # sparse
@@ -66,104 +66,104 @@ def generate_broad_absorption(number_of_peaks):
     return spectrum
 
 
-# Create a 2x2 grid
-fig, axs = plt.subplots(2, 2, figsize=(12, 8))
-fig.suptitle('Ground Truth Spectrum Generation (No Noise)', fontsize=16)
+# # Create a 2x2 grid
+# fig, axs = plt.subplots(2, 2, figsize=(12, 8))
+# fig.suptitle('Ground Truth Spectrum Generation (No Noise)', fontsize=16)
 
-# 1. Sparse Emission
-axs[0, 0].plot(wavelengths, generate_sparse_spectrum(5), color='tab:blue')
-axs[0, 0].set_title('Type 1: Sparse Emission')
-axs[0, 0].set_ylim(-0.1, 1.1)
+# # 1. Sparse Emission
+# axs[0, 0].plot(wavelengths, generate_sparse_spectrum(5), color='tab:blue')
+# axs[0, 0].set_title('Type 1: Sparse Emission')
+# axs[0, 0].set_ylim(-0.1, 1.1)
 
-# 2. Narrow Absorption
-axs[0, 1].plot(wavelengths, generate_narrow_absorption(5), color='tab:orange')
-axs[0, 1].set_title('Type 2: Narrow Absorption')
-axs[0, 1].set_ylim(-0.1, 1.1)
+# # 2. Narrow Absorption
+# axs[0, 1].plot(wavelengths, generate_narrow_absorption(5), color='tab:orange')
+# axs[0, 1].set_title('Type 2: Narrow Absorption')
+# axs[0, 1].set_ylim(-0.1, 1.1)
 
-# 3. Broad Emission
-axs[1, 0].plot(wavelengths, generate_broad_emission(5), color='tab:green')
-axs[1, 0].set_title('Type 3: Broad Emission')
-axs[1, 0].set_ylim(-0.1, 1.1)
+# # 3. Broad Emission
+# axs[1, 0].plot(wavelengths, generate_broad_emission(5), color='tab:green')
+# axs[1, 0].set_title('Type 3: Broad Emission')
+# axs[1, 0].set_ylim(-0.1, 1.1)
 
-# 4. Broad Absorption
-axs[1, 1].plot(wavelengths, generate_broad_absorption(5), color='tab:red')
-axs[1, 1].set_title('Type 4: Broad Absorption')
-axs[1, 1].set_ylim(-0.1, 1.1)
+# # 4. Broad Absorption
+# axs[1, 1].plot(wavelengths, generate_broad_absorption(5), color='tab:red')
+# axs[1, 1].set_title('Type 4: Broad Absorption')
+# axs[1, 1].set_ylim(-0.1, 1.1)
 
-# Make it look nice
-for ax in axs.flat:
-    ax.set_xlabel('Wavelength (nm)')
-    ax.set_ylabel('Intensity')
+# # Make it look nice
+# for ax in axs.flat:
+#     ax.set_xlabel('Wavelength (nm)')
+#     ax.set_ylabel('Intensity')
 
 # plt.tight_layout()
 # plt.show()
 
-rows, cols = 4, 4
-fig, axs = plt.subplots(rows, cols, figsize=(16, 12))
-plt.subplots_adjust(hspace=0.4, wspace=0.3)
+# rows, cols = 4, 4
+# fig, axs = plt.subplots(rows, cols, figsize=(16, 12))
+# plt.subplots_adjust(hspace=0.4, wspace=0.3)
 
-types = ['Sparse', 'Narrow Abs', 'Broad Emis', 'Broad Abs']
+# types = ['Sparse', 'Narrow Abs', 'Broad Emis', 'Broad Abs']
 
-for i in range(rows):
-    for j in range(cols):
-        # Cycle through your 4 types
-        current_type = types[i]
+# for i in range(rows):
+#     for j in range(cols):
+#         # Cycle through your 4 types
+#         current_type = types[i]
         
-        if current_type == 'Sparse':
-            data = generate_sparse_spectrum(random.randint(2, 10))
-            color = 'tab:blue'
-        elif current_type == 'Narrow Abs':
-            data = generate_narrow_absorption(random.randint(2, 10))
-            color = 'tab:orange'
-        elif current_type == 'Broad Emis':
-            data = generate_broad_emission(random.randint(1, 4))
-            color = 'tab:green'
-        else:
-            data = generate_broad_absorption(random.randint(1, 4))
-            color = 'tab:red'
+#         if current_type == 'Sparse':
+#             data = generate_sparse_spectrum(random.randint(2, 10))
+#             color = 'tab:blue'
+#         elif current_type == 'Narrow Abs':
+#             data = generate_narrow_absorption(random.randint(2, 10))
+#             color = 'tab:orange'
+#         elif current_type == 'Broad Emis':
+#             data = generate_broad_emission(random.randint(1, 4))
+#             color = 'tab:green'
+#         else:
+#             data = generate_broad_absorption(random.randint(1, 4))
+#             color = 'tab:red'
             
-        # axs[i, j].plot(wavelengths, data, color=color, linewidth=1)
-        axs[i, j].set_title(f"{current_type} Sample {j+1}", fontsize=10)
-        axs[i, j].set_ylim(-0.05, 1.05)
-        axs[i, j].tick_params(axis='both', which='major', labelsize=8)
+#         # axs[i, j].plot(wavelengths, data, color=color, linewidth=1)
+#         axs[i, j].set_title(f"{current_type} Sample {j+1}", fontsize=10)
+#         axs[i, j].set_ylim(-0.05, 1.05)
+#         axs[i, j].tick_params(axis='both', which='major', labelsize=8)
 
-# fig.suptitle('Batch Synthetic Spectra Generation (Ground Truths)', fontsize=18)
-# plt.show()
+# # fig.suptitle('Batch Synthetic Spectra Generation (Ground Truths)', fontsize=18)
+# # plt.show()
 
-def plot_spectrum_grid(rows=4, cols=4):
-    fig, axs = plt.subplots(rows, cols, figsize=(16, 12))
-    # plt.subplots_adjust(hspace=0.4, wspace=0.3)
+# def plot_spectrum_grid(rows=4, cols=4):
+#     fig, axs = plt.subplots(rows, cols, figsize=(16, 12))
+#     # plt.subplots_adjust(hspace=0.4, wspace=0.3)
     
-    # Define our types and matching colors
-    types = [
-        ('Sparse Emission', 'tab:blue', generate_sparse_spectrum),
-        ('Narrow Absorption', 'tab:orange', generate_narrow_absorption),
-        ('Broad Emission', 'tab:green', generate_broad_emission),
-        ('Broad Absorption', 'tab:red', generate_broad_absorption)
-    ]
+#     # Define our types and matching colors
+#     types = [
+#         ('Sparse Emission', 'tab:blue', generate_sparse_spectrum),
+#         ('Narrow Absorption', 'tab:orange', generate_narrow_absorption),
+#         ('Broad Emission', 'tab:green', generate_broad_emission),
+#         ('Broad Absorption', 'tab:red', generate_broad_absorption)
+#     ]
 
-    for i in range(rows):
-        # Pick the type for this entire row
-        label, color, func = types[i]
+#     for i in range(rows):
+#         # Pick the type for this entire row
+#         label, color, func = types[i]
         
-        for j in range(cols):
-            ax = axs[i, j]
+#         for j in range(cols):
+#             ax = axs[i, j]
             
-            # Randomize the "intensity" or "complexity" for variety
-            if 'Broad' in label:
-                n = random.randint(1, 5) # 1 to 5 broad peaks
-            else:
-                n = random.randint(3, 15) # 3 to 15 sharp spikes
+#             # Randomize the "intensity" or "complexity" for variety
+#             if 'Broad' in label:
+#                 n = random.randint(1, 5) # 1 to 5 broad peaks
+#             else:
+#                 n = random.randint(3, 15) # 3 to 15 sharp spikes
             
-            data = func(n)
+#             data = func(n)
             
-            # ax.plot(data, color=color, linewidth=1)
-            # ax.set_title(f"{label} (n={n})", fontsize=10)
-            # ax.set_ylim(-0.05, 1.05)
+#             # ax.plot(data, color=color, linewidth=1)
+#             # ax.set_title(f"{label} (n={n})", fontsize=10)
+#             # ax.set_ylim(-0.05, 1.05)
             
-            # Clean up the labels so it's not cluttered
-            if j > 0: ax.set_yticklabels([])
-            if i < rows - 1: ax.set_xticklabels([])
+#             # Clean up the labels so it's not cluttered
+#             if j > 0: ax.set_yticklabels([])
+#             if i < rows - 1: ax.set_xticklabels([])
 
     # fig.suptitle('Variation Gallery: 4 Types of Synthetic Spectra', fontsize=20, y=0.95)
     # plt.show()
@@ -180,7 +180,12 @@ probe_matrix = scipy.io.loadmat("Matrix_probe_Dis7.mat")['mat2']
 print(calibration_matrix.shape)
 print(probe_matrix.shape)
 
-
+# this is to peanlize missing peaks
+# right now it hallucinates to not miss peaks
+def weighted_mse_loss(input, target, weight):
+    sqaured_errors = (input - target) ** 2
+    weighted_errors = weight * sqaured_errors
+    return weighted_errors.sum() / weight.sum()
 
 # generate training set
 X_train_list = [] # device measurements that get inputted to the NN
@@ -295,23 +300,28 @@ class SolverNetwork(nn.Module):
         super().__init__()
         
         # y = Wx + b
-        self.layer1 = nn.Linear(1500, 32)
-        self.layer2 = nn.Linear(32, 32)
-        self.layer3 = nn.Linear(32, 1500)
+        self.layer1 = nn.Linear(1500, 512)
+        self.layer2 = nn.Linear(512, 256)
+        self.layer3 = nn.Linear(256, 512)
+        self.layer4 = nn.Linear(512, 1500)
+
         
         # constraint
         # forces value to be between 0 and 1
-        self.sigmoid = nn.Sigmoid()
+        self.ReLU = nn.ReLU()
 
     def forward(self, x):
         x = self.layer1(x)
-        x = self.sigmoid(x)
+        x = self.ReLU(x)
 
         x = self.layer2(x)
-        x = self.sigmoid(x)
+        x = self.ReLU(x)
 
         x = self.layer3(x)
-        x = self.sigmoid(x)
+        x = self.ReLU(x)
+        
+        x = self.layer4(x)
+        x = self.ReLU(x)
 
         return x
 
@@ -353,17 +363,18 @@ val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
 
 
 model = SolverNetwork()
-loss_function = nn.MSELoss()
+# loss_function = weighted_mse_loss()
 # how much to adjust weight after each backprop
 # for large jumpts, slow them down, for small jumps, make them bigger
 # lr = step size
 optimizer = torch.optim.Adam(model.parameters(), lr = 0.001)
 
 # need more since its still converging, more training
-num_of_epochs = 50
+num_of_epochs = 200
 loss_history = []
 print("starting epochs: ")
 for epoch in range(num_of_epochs):
+    model.train()
     
     train_loss = 0.0
 
@@ -375,7 +386,7 @@ for epoch in range(num_of_epochs):
         predictions = model(X_batch)
 
         # compare prediction to perfect ground truth
-        loss = loss_function(predictions, y_batch)
+        loss = weighted_mse_loss(predictions, y_batch, 1 + 70 * torch.abs(y_batch))
 
         # to reset memory from previous batch
         optimizer.zero_grad()
@@ -395,7 +406,7 @@ for epoch in range(num_of_epochs):
     with torch.no_grad():
         for X_val, y_val in val_loader:
             val_preds = model(X_val)
-            batch_loss = loss_function(val_preds, y_val)
+            batch_loss = weighted_mse_loss(val_preds, y_val, 1 + 70 * torch.abs(y_val))
             running_val_loss += batch_loss.item()
 
     
