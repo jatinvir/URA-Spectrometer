@@ -173,9 +173,9 @@ def generate_broad_absorption(number_of_peaks):
 
 # load transmission matrix
 # main matrix for training
-calibration_matrix = scipy.io.loadmat("Matrix_calabration_Dis7.mat")['mat2']
+calibration_matrix = scipy.io.loadmat("transmission_matrices/Matrix_calabration_Dis7.mat")['mat2']
 #matrix for validation set
-probe_matrix = scipy.io.loadmat("Matrix_probe_Dis7.mat")['mat2']
+probe_matrix = scipy.io.loadmat("transmission_matrices/Matrix_probe_Dis7.mat")['mat2']
 
 print(calibration_matrix.shape)
 print(probe_matrix.shape)
@@ -202,6 +202,9 @@ def simulate_measurement(spectrum, T, snr_db = 30):
     # generate Gaussian noise
     noise = np.random.normal(0, np.sqrt(noise_level), measurement.shape)
     return measurement + noise
+
+random.seed(42)
+np.random.seed(42)
 
 # 3000 samples
 for _ in range(3000):
@@ -252,7 +255,7 @@ U, S, Vh = np.linalg.svd(calibration_matrix, full_matrices=False)
 
 # print(S)
 # dynamic threshold to filter out low values
-ratio = 0.05
+ratio = 0.2
 threshold = ratio * S[0]
 # only invert singular values that are larger than the threshold
 S_inv_matrix = np.diag(np.where(S > threshold, 1 / S, 0))
@@ -275,7 +278,7 @@ X_train_rough = X_train @ inflation_matrix.T
 # (3000, 1500)
 # print(X_train_rough)
 
-sample_idx = 42
+sample_idx = 2
 
 plt.figure(figsize=(12, 5))
 plt.plot(wavelengths, y_train[sample_idx], label="Ground Truth (The Target)", color='black', alpha=0.5)
@@ -308,20 +311,20 @@ class SolverNetwork(nn.Module):
         
         # constraint
         # forces value to be between 0 and 1
-        self.ReLU = nn.ReLU()
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self, x):
         x = self.layer1(x)
-        x = self.ReLU(x)
+        x = self.sigmoid(x)
 
         x = self.layer2(x)
-        x = self.ReLU(x)
+        x = self.sigmoid(x)
 
         x = self.layer3(x)
-        x = self.ReLU(x)
+        x = self.sigmoid(x)
         
         x = self.layer4(x)
-        x = self.ReLU(x)
+        # x = self.sigmoid(x)
 
         return x
 
@@ -370,7 +373,7 @@ model = SolverNetwork()
 optimizer = torch.optim.Adam(model.parameters(), lr = 0.001)
 
 # need more since its still converging, more training
-num_of_epochs = 200
+num_of_epochs = 100
 loss_history = []
 print("starting epochs: ")
 for epoch in range(num_of_epochs):
@@ -417,39 +420,44 @@ for epoch in range(num_of_epochs):
         print(f"Epoch [{epoch+1}/{num_of_epochs}] | Train Loss: {avg_train_loss:.6f} | Val Loss: {avg_val_loss:.6f}")
 
 
-# 1. Lock the model for testing
+# Lock the model for testing
 model.eval()
 
-# 2. Grab exactly one batch of validation data
+sample_to_plot = 2
+
+# Grab the raw numpy arrays directly
+true_spectrum = y_train[sample_to_plot]
+solver_draft_numpy = X_train_rough[sample_to_plot]
+
+# Convert the SVD rough draft to a PyTorch tensor and add a batch dimension of 1
+solver_draft_tensor = torch.tensor(solver_draft_numpy, dtype=torch.float32).unsqueeze(0)
+
+# Run just this one sample through the trained neural network
 with torch.no_grad():
-    X_val_batch, y_val_batch = next(iter(val_loader))
+    prediction_tensor = model(solver_draft_tensor)
     
-    predictions = model(X_val_batch)
+# Convert back to a 1D numpy array
+predicted_spectrum = prediction_tensor.squeeze().numpy()
 
-true_spectrum = y_val_batch[0].numpy()
-predicted_spectrum = predictions[0].numpy()
-wavelengths = np.linspace(1550, 1565, 1500)
-
-# 4. Plot the overlay
-plt.figure(figsize=(10, 5))
+# Plot the overlay of all 3 lines
+plt.figure(figsize=(12, 6))
 plt.plot(wavelengths, true_spectrum, label="Ground Truth (Clean)", color="black", linewidth=2)
-plt.plot(wavelengths, predicted_spectrum, label="NN Prediction", color="red", linestyle="--", linewidth=2)
+plt.plot(wavelengths, solver_draft_numpy, label="SVD Rough Sketch", color="blue", alpha=0.4, linestyle='--')
+plt.plot(wavelengths, predicted_spectrum, label="NN Prediction", color="red", linewidth=2)
 
-plt.title("Solver-Informed Reconstruction: Prediction vs. Reality")
+plt.title(f"Solver-Informed Reconstruction: Sample {sample_to_plot}")
 plt.xlabel("Wavelength (nm)")
 plt.ylabel("Normalized Intensity")
 plt.legend()
 plt.grid(True, alpha=0.3)
 plt.show()
+
 print("training done")
 
-
-
-# plt.plot(loss_history)
-# plt.xlabel("Epoch")
-# plt.ylabel("Loss")
-# plt.title("Training Loss")
-# plt.show()
-
-
-
+# Plot the loss curve
+plt.figure()
+plt.plot(loss_history)
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.title("Training Loss")
+plt.show()
