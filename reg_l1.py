@@ -101,9 +101,9 @@ L = build_L(1500)
 T_aug = np.vstack([T, np.sqrt(alpha) * L])
 
 X_train_rough = []
-for i in range(1):
-    if i % 10 == 0:
-        print(f"{i}/3000 done...")
+for i in range(5):
+    if i % 1 == 0:
+        print(f"{i}/5 done...")
     y_aug = np.concatenate([X_train_np[i], np.zeros(1499)])
     x, _ = nnls(T_aug, y_aug)
     X_train_rough.append(x)
