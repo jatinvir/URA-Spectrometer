@@ -1,0 +1,150 @@
+Epoch 1/30, Train Loss: 0.09787330213778962, Val Loss: 0.034957082786907755
+  sparse_spectrum: 0.006761
+  narrow_absorption: 0.033955
+  broad_emission: 0.055241
+  broad_absorption: 0.045348
+Epoch 2/30, Train Loss: 0.03005385639456411, Val Loss: 0.021805369139959414
+  sparse_spectrum: 0.005853
+  narrow_absorption: 0.021158
+  broad_emission: 0.034453
+  broad_absorption: 0.026613
+Epoch 3/30, Train Loss: 0.01777105258467297, Val Loss: 0.01535700416813294
+  sparse_spectrum: 0.005354
+  narrow_absorption: 0.014908
+  broad_emission: 0.023756
+  broad_absorption: 0.017954
+Epoch 4/30, Train Loss: 0.014041245138893524, Val Loss: 0.013382971519604325
+  sparse_spectrum: 0.004924
+  narrow_absorption: 0.013130
+  broad_emission: 0.020656
+  broad_absorption: 0.015291
+Epoch 5/30, Train Loss: 0.012049681623466313, Val Loss: 0.013136379498367509
+  sparse_spectrum: 0.004602
+  narrow_absorption: 0.017487
+  broad_emission: 0.017203
+  broad_absorption: 0.013875
+Epoch 6/30, Train Loss: 0.011314536638868352, Val Loss: 0.017692439258098602
+  sparse_spectrum: 0.004394
+  narrow_absorption: 0.032763
+  broad_emission: 0.019835
+  broad_absorption: 0.015047
+Epoch 7/30, Train Loss: 0.011074948803676913, Val Loss: 0.014582934401308497
+  sparse_spectrum: 0.004261
+  narrow_absorption: 0.016090
+  broad_emission: 0.023774
+  broad_absorption: 0.014869
+Epoch 8/30, Train Loss: 0.010363268588359157, Val Loss: 0.012585962113613883
+  sparse_spectrum: 0.004182
+  narrow_absorption: 0.018362
+  broad_emission: 0.016249
+  broad_absorption: 0.012226
+Epoch 9/30, Train Loss: 0.009528358311702808, Val Loss: 0.011294508508096138
+  sparse_spectrum: 0.004130
+  narrow_absorption: 0.013234
+  broad_emission: 0.015694
+  broad_absorption: 0.012582
+Epoch 10/30, Train Loss: 0.008763363322941586, Val Loss: 0.012423975393176079
+  sparse_spectrum: 0.004097
+  narrow_absorption: 0.019066
+  broad_emission: 0.015488
+  broad_absorption: 0.011744
+Epoch 11/30, Train Loss: 0.00869508576579392, Val Loss: 0.011277792470840117
+  sparse_spectrum: 0.004082
+  narrow_absorption: 0.015766
+  broad_emission: 0.013914
+  broad_absorption: 0.011895
+Epoch 12/30, Train Loss: 0.008213688338097805, Val Loss: 0.011262966940800348
+  sparse_spectrum: 0.004067
+  narrow_absorption: 0.013322
+  broad_emission: 0.015350
+  broad_absorption: 0.012776
+Epoch 13/30, Train Loss: 0.007788584771333262, Val Loss: 0.011640598143761357
+  sparse_spectrum: 0.004053
+  narrow_absorption: 0.014285
+  broad_emission: 0.016619
+  broad_absorption: 0.012127
+Epoch 14/30, Train Loss: 0.007650249851091455, Val Loss: 0.010680966583701471
+  sparse_spectrum: 0.004045
+  narrow_absorption: 0.014163
+  broad_emission: 0.014282
+  broad_absorption: 0.010730
+Epoch 15/30, Train Loss: 0.007503594446461648, Val Loss: 0.011083071042473117
+  sparse_spectrum: 0.004042
+  narrow_absorption: 0.013087
+  broad_emission: 0.016330
+  broad_absorption: 0.011350
+Epoch 16/30, Train Loss: 0.007095370082727944, Val Loss: 0.010766532815371951
+  sparse_spectrum: 0.004026
+  narrow_absorption: 0.014287
+  broad_emission: 0.014311
+  broad_absorption: 0.010944
+Epoch 17/30, Train Loss: 0.006758261180948466, Val Loss: 0.010247437399812043
+  sparse_spectrum: 0.004014
+  narrow_absorption: 0.014018
+  broad_emission: 0.013128
+  broad_absorption: 0.010309
+Epoch 18/30, Train Loss: 0.006619128806050867, Val Loss: 0.011345439745734135
+  sparse_spectrum: 0.004011
+  narrow_absorption: 0.018994
+  broad_emission: 0.013307
+  broad_absorption: 0.009755
+Epoch 19/30, Train Loss: 0.00635900337753507, Val Loss: 0.01014516168894867
+  sparse_spectrum: 0.004014
+  narrow_absorption: 0.014558
+  broad_emission: 0.013142
+  broad_absorption: 0.009374
+Epoch 20/30, Train Loss: 0.006242814114860569, Val Loss: 0.01039516677459081
+  sparse_spectrum: 0.004011
+  narrow_absorption: 0.011521
+  broad_emission: 0.014621
+  broad_absorption: 0.011817
+Epoch 21/30, Train Loss: 0.0061779201302366955, Val Loss: 0.010148761056674024
+  sparse_spectrum: 0.004002
+  narrow_absorption: 0.012345
+  broad_emission: 0.014316
+  broad_absorption: 0.010361
+Epoch 22/30, Train Loss: 0.005941647589982797, Val Loss: 0.010197016992606223
+  sparse_spectrum: 0.004002
+  narrow_absorption: 0.014313
+  broad_emission: 0.013157
+  broad_absorption: 0.009811
+Epoch 23/30, Train Loss: 0.005740779316208015, Val Loss: 0.01093288033735007
+  sparse_spectrum: 0.003999
+  narrow_absorption: 0.017725
+  broad_emission: 0.012922
+  broad_absorption: 0.009715
+Epoch 24/30, Train Loss: 0.0057096992143973084, Val Loss: 0.009992477872098485
+  sparse_spectrum: 0.004002
+  narrow_absorption: 0.013193
+  broad_emission: 0.013112
+  broad_absorption: 0.010111
+Epoch 25/30, Train Loss: 0.005714460091742997, Val Loss: 0.010968085611239076
+  sparse_spectrum: 0.004012
+  narrow_absorption: 0.017652
+  broad_emission: 0.012874
+  broad_absorption: 0.009958
+Epoch 26/30, Train Loss: 0.005699342165219908, Val Loss: 0.010281946587686738
+  sparse_spectrum: 0.004003
+  narrow_absorption: 0.014925
+  broad_emission: 0.013007
+  broad_absorption: 0.009712
+Epoch 27/30, Train Loss: 0.005587544224302595, Val Loss: 0.009920918460314473
+  sparse_spectrum: 0.004007
+  narrow_absorption: 0.013438
+  broad_emission: 0.012841
+  broad_absorption: 0.009854
+Epoch 28/30, Train Loss: 0.005331273830961436, Val Loss: 0.009948351692097882
+  sparse_spectrum: 0.004002
+  narrow_absorption: 0.013171
+  broad_emission: 0.012629
+  broad_absorption: 0.010429
+Epoch 29/30, Train Loss: 0.0051672338546874625, Val Loss: 0.010292517603375018
+  sparse_spectrum: 0.004000
+  narrow_absorption: 0.015469
+  broad_emission: 0.012498
+  broad_absorption: 0.009738
+Epoch 30/30, Train Loss: 0.005065196125845735, Val Loss: 0.009766200091689825
+  sparse_spectrum: 0.004001
+  narrow_absorption: 0.013074
+  broad_emission: 0.012669
+  broad_absorption: 0.009761
