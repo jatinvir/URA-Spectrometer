@@ -1,0 +1,8 @@
+MSE before (Reg NNLS):                   0.074441
+MSE after V4 (no schedule):              0.007323
+MSE after V5 (cosine LR):                0.008015
+MSE after V6 (cosine LR + AdamW):        0.008348
+MSE after V7 (V6 + input noise aug):     0.008347
+MSE after V8 (V6 + 4000 more samples):   0.006586
+MSE after V9 (V8 + Huber loss):          0.006488
+V9 Improvement over Reg NNLS:            91.3%
